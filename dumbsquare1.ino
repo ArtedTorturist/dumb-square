@@ -1,3 +1,4 @@
+
 #include <SPI.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
@@ -71,12 +72,24 @@ void loop() {
 int scsq(int sx, int sy, int ss){
   int h=0;
   int w=0;
-  if(sx>128){
-    sx=sx%128;
+  int qc=ss/2;
+  
+  if(sy+qc>64){
+    sy=64-ss;
+  } else if(sy-qc<0){
+    sy=0;
+  } else {
+    sy=sy-qc;
   }
-  if(sy>64){
-    sy=sy%64;
+
+  if(sx+qc>128){
+    sx=128-ss;
+  } else if(sx-qc<0){
+    sx=0;
+  } else {
+    sx=sx-qc;
   }
+  
   while(h<ss){
     while(w<ss){
       display.drawPixel(sx+w, sy+h, SSD1306_WHITE);
